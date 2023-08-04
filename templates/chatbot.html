@@ -17,7 +17,7 @@
 
 <body class="bg-black">
     <!-- Header -->
-    <header class="bg-primary text-white p-4 flex justify-between items-center">
+    <header class="bg-primary sticky top-0 z-50  text-white p-4 flex justify-between items-center">
         <div class="p-8 mx-8">
             <span class="text-2xl">+</span>
             <button id="new-chat-button"><span  class="ml-2 text-lg">New Chat</span></button>
@@ -56,7 +56,9 @@
     </div>
 
     <!-- Chatbot Interface -->
+    <div class="container  mx-auto my-4 p-6   " >
     <main class="p-4 md:p-8">
+      
         <section>
             <p class="text-white  text-sm text-center p-8  ">Hi {{ user.username }}!,</br> Welcome to MeetAyla, How can I help you today</p>
             <div id="chat-history" >
@@ -298,10 +300,11 @@
     {% endif %}
 
         <!-- User input form -->
-        <div class="mt-28">
-            <div class="relative mx-auto w-full max-w-lg">
+        <div class="mt-28 ">
+            <div class="fixed bottom-6 lg:ml-96 lg:left-24 z-50  w-full max-w-lg ">
                 <form method="post">
                     {% csrf_token %}
+                    <div class=>
                     <input type="text" id="input-group-1"
                         class="bg-transparent border-b border-gray-600 text-white text-sm rounded-none placeholder-white w-full p-2.5 pr-12"
                         placeholder="Ask Ayla anything" />
@@ -315,11 +318,21 @@
                         </svg>
                         </button>
                     </div>
+                    </div>
                 </form>
             </div>
         </div>
+ 
     </main>
-
+           <!-- Back to Top Arrow -->
+           <div id="scrollToBottomBtn" class="fixed bottom-4 right-4">
+            <button id="scrollToBottom" class="text-white hover:text-gray-300 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M3.33337 4.99996C3.33337 4.26396 3.89437 3.74996 4.60537 3.74996H15.3954C16.1064 3.74996 16.6674 4.26396 16.6674 4.99996V8.33329H17.5007C18.8807 8.33329 20.0007 9.45329 20.0007 10.8333C20.0007 12.2133 18.8807 13.3333 17.5007 13.3333H16.6674V16.6666C16.6674 17.4026 16.1064 17.9166 15.3954 17.9166H4.60537C3.89437 17.9166 3.33337 17.4026 3.33337 16.6666V13.3333H2.50004C1.12004 13.3333 0.0000396729 12.2133 0.0000396729 10.8333C0.0000396729 9.45329 1.12004 8.33329 2.50004 8.33329H3.33337V4.99996ZM1.34604 9.80729C1.53537 10.0156 1.85004 10.0156 2.03937 9.80729C2.2287 9.59996 2.2287 9.24596 2.03937 9.03729L9.14737 2.56162C8.79937 2.21996 8.20004 2.21996 7.85337 2.56162L1.34604 9.03729ZM18.6534 9.80729C18.8427 10.0156 19.1574 10.0156 19.3467 9.80729C19.536 9.59996 19.536 9.24596 19.3467 9.03729L12.8394 2.56162C12.4914 2.21996 11.892 2.21996 11.5454 2.56162L18.6534 9.03729Z" fill="#B40C60" />
+                </svg>
+            </button>
+        </div>
+</div>
 
     <!-- JavaScript for hamburger menu -->
     <script>
@@ -346,7 +359,15 @@ function clearChatHistory() {
             console.log(errmsg);
         }
     });
+
+    document.getElementById('scrollToBottom').addEventListener('click', function() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
 }
+
 
 // Function to create a new chat and clear chat history
 function createNewChat() {
@@ -370,7 +391,14 @@ function createNewChat() {
 
 // Add click event listener to the new chat button
 newChatButton.addEventListener('click', createNewChat);
+const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
 
+    scrollToBottomBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    });
 
     </script>
 </body>
