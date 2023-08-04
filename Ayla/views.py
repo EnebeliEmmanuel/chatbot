@@ -1,15 +1,16 @@
-from datetime import timezone
-import json
 import os
 
-# use allauth form
-from allauth.account.forms import LoginForm
-from django.contrib.auth.forms import UserCreationForm
+from .forms import RegistrationForm
 
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.http import JsonResponse
+from Ayla.models import Chatbot
+
+from django.http import JsonResponse
+
 
 import openai
 from openai.error import InvalidRequestError
@@ -87,30 +88,58 @@ def chatbot_view(request):
     
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('chatbot')
 
     else:
-        form = UserCreationForm()
+        form = RegistrationForm()
 
     return render(request, 'register.html', {'form': form})
 
 
 def login_view(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            user = form.user
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user=authenticate(request, username=username, password=password)
+
+        if user is not None:
             login(request, user)
             return redirect('chatbot')
-    else:
-        form = LoginForm()
+        
+        else:
+            return redirect('login')
 
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html')
 
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+from django.http import JsonResponse
+
+def get_initial_messages(request):
+    # Logic to retrieve initial chat messages from your data source
+    conversation_history = [
+        {'message': 'Hello!', 'timestamp': '2023-07-27T12:00:00Z'},
+        {'message': 'How can I help you?', 'timestamp': '2023-07-27T12:01:00Z'},
+        # Add more messages as needed
+    ]
+
+    return JsonResponse({'conversation_history': conversation_history})
+
+
+
+
+
+
+def clear_chat_history(request):
+    if request.method == 'POST':
+        user = request.user
+        Chatbot.objects.filter(user=user).delete()
+        return JsonResponse({'message': 'Chat history cleared successfully.'})
+
