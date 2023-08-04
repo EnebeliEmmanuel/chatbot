@@ -58,7 +58,7 @@
     <!-- Chatbot Interface -->
     <main class="p-4 md:p-8">
         <section>
-            <p class="text-white  text-sm text-center p-8 mr-20 ">Hi {{ user.username }}!,</br> Welcome to MeetAyla, How can I help you today</p>
+            <p class="text-white  text-sm text-center p-8  ">Hi {{ user.username }}!,</br> Welcome to MeetAyla, How can I help you today</p>
             <div id="chat-history" >
             <div id="chat-container" class="chat-container">
                 <!-- Iterate through the conversation history and display messages -->
@@ -90,7 +90,7 @@
                     </div>
                     
                     </div>
-                    <div class="message chatbot-message flex mx-auto w-full max-w-lg  items-start">
+                    <div class="message chatbot-message flex mx-auto w-full max-w-lg md:mx-auto  items-start">
                         <!-- Chatbot response message -->
                         <!-- Your chatbot response message here -->
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -166,7 +166,7 @@
 
     <!-- Logo (conditionally rendered) -->
     {% if conversation_history %}
-    <div id="logo" class="flex justify-center items-center lg:mt-24 hidden">
+    <div id="logo" class="flex justify-center items-center lg:mt-14 hidden">
         
             <!-- Your logo SVG here -->
             <svg  xmlns="http://www.w3.org/2000/svg" width="74" height="74" viewBox="0 0 74 74" fill="none">
@@ -231,7 +231,7 @@
               </svg>
     </div>
     {% else %}
-    <div id="logo" class="flex justify-center items-center lg:mt-24">
+    <div id="logo" class="flex justify-center items-center lg:mt-14">
      
             <!-- Your logo SVG here -->
             <svg  xmlns="http://www.w3.org/2000/svg" width="74" height="74" viewBox="0 0 74 74" fill="none">
@@ -298,7 +298,7 @@
     {% endif %}
 
         <!-- User input form -->
-        <div class="mt-8">
+        <div class="mt-28">
             <div class="relative mx-auto w-full max-w-lg">
                 <form method="post">
                     {% csrf_token %}
