@@ -52,7 +52,7 @@
 
         <div class="bg-black rounded-lg shadow-xl transform transition-all">
             <div class="py-1">
-                <a href="{% url 'history' %}" class="block px-4 py-2 text-white hover:bg-gray-800">History</a>
+                <a href="{% url 'history' %}" class="block px-4 py-2 text-white hover:bg-gray-800 ">History</a>
                 <div class="border-t border-gray-800"></div>
                 <a href="{% url 'settings' %}" class="block px-4 py-2 text-white hover:bg-gray-800">Settings</a>
                 <div class="border-t border-gray-800"></div>
@@ -92,7 +92,7 @@
                                 </svg>
 
 
-                                <p class="text-white pt-2  pl-8">{{ entry.user_input }}</p>
+                                <p class="text-white  pl-8">{{ entry.user_input }}</p>
                                 <div class="relative mx-auto mr-24  max-w-lg">
                                     <button type="submit" name="send_button"
                                         class="absolute right-0 top-1/2  md:static md:translate-y-0 bg-transparent focus:outline-none">
