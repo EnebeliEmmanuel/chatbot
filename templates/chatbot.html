@@ -118,8 +118,8 @@
             {% endif %}
 
             <!-- User input form -->
-            <div class="fixed bottom-0 inset-x-0 z-50 flex justify-center items-center shadow-lg bg-black p-4  ">
-              <form method="post" class="w-full max-w-lg">
+            <div class="fixed bottom-0 inset-x-0 z-50 flex justify-center items-center shadow-lg p-4">
+              <form method="post" class="w-full max-w-lg bg-black">
                   {% csrf_token %}
                   <div class="relative">
                       <input type="text" id="input-group-1" name="user_input"
@@ -137,22 +137,25 @@
               </form>
           </div>
           
+          
         </main>
         <!-- Back to Top Arrow -->
         <div id="scrollToBottomBtn" class="fixed bottom-4 right-4">
-            <button id="scrollToBottom" class="text-white hover:text-gray-300 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <button id="scrollToBottom" class="text-white hover:text-gray-300 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <use xlink:href="{% static 'svgs.svg' %}#arr-icon"></use>
-                </svg>
-            </button>
-        </div>
+              </svg>
+          </button>
+      </div>
+      
+      
     </div>
 
     <!-- JavaScript for hamburger menu -->
     <script>
         const openModalBtn = document.getElementById('openModalBtn');
         const modal = document.getElementById('modal');
-
+      
         openModalBtn.addEventListener('click', () => {
             modal.classList.toggle('hidden');
         });
@@ -179,14 +182,13 @@
             // chatHistoryContainer.classList.add('hidden');
         }
 
-        const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
-
-        scrollToBottomBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
-            });
+        document.addEventListener("DOMContentLoaded", function () {
+        var scrollToBottomBtn = document.getElementById("scrollToBottom");
+        scrollToBottomBtn.addEventListener("click", function () {
+            var chatHistory = document.getElementById("chat-history");
+            chatHistory.scrollTop = chatHistory.scrollHeight;
         });
+    });
 
     </script>
 </body>
