@@ -12,4 +12,3 @@ class Chatbot(models.Model):
 
 
 
-

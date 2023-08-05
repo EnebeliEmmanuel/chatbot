@@ -21,8 +21,8 @@
 
 <body class=" bg-no-repeat bg-center h-full"
     style="background-image: url('https://github.com/AugustHottie/chatbot/assets/58889001/fdd2a185-3a60-4588-a2e0-b2ae849c6452'); ">
-    <header class="  p-4 flex justify-between items-center">
-        <div >
+    <header class="bg-primary text-white p-4 flex justify-between items-center">
+        <div class="logo">
             <!-- Add your logo image here -->
             <svg xmlns="http://www.w3.org/2000/svg" width="135" height="34" viewBox="0 0 135 34" fill="none">
                 <mask id="path-1-outside-1_14_34" maskUnits="userSpaceOnUse" x="41.5301" y="4.10495" width="94"
@@ -139,16 +139,6 @@
             navigating menstrual cycles and fertility to embracing effective birth control options.
         </div>
 
-        {% if user.is_authenticated %}
-        <div class="mt-4 text-primary px-4 py-2 rounded-lg flex items-center border border-white shadow-xs">
-            <a href="{% url 'chatbot' %}"> <span class="mr-2 text-white">Chat with Ayla</span></a>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                    d="M4.16667 2.5V5.83333M2.5 4.16667H5.83333M5 14.1667V17.5M3.33333 15.8333H6.66667M10.8333 2.5L12.7381 8.21429L17.5 10L12.7381 11.7857L10.8333 17.5L8.92857 11.7857L4.16667 10L8.92857 8.21429L10.8333 2.5Z"
-                    stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </div>
-    {% else %}
         <div class="mt-4 text-primary px-4 py-2 rounded-lg flex items-center border border-white shadow-xs">
             <a href="{% url 'login' %}"> <span class="mr-2 text-white">Chat with Ayla</span></a>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -157,8 +147,6 @@
                     stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </div>
-    {% endif %}
-    
 
     </main>
 </body>

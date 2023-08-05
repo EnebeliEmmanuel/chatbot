@@ -46,42 +46,38 @@ def chatbot_view(request):
     # Retrieve the conversation history from the user's session
     conversation_history = request.session.get('conversation_history', [])
 
+    # Clear conversation history if the "New Chat" button is clicked
+    if 'new_chat_button' in request.POST:
+        request.session['conversation_history'] = []
+
     # Initialize chatbot_response with an empty string
     chatbot_response = ''
 
     if request.method == 'POST':
-        # Check if the "Send" button is clicked
+        # Check if the "send_button" is clicked
         if 'send_button' in request.POST:
-            user_input = request.POST.get('user_input', '')
-            # Assuming you have properly set up the authentication middleware,
-            # you can directly use request.user to get the authenticated user.
-            chatbot_response = get_chatbot_response(user_input)
+            user_input = request.POST.get('user_input', '').strip()  # Remove leading/trailing spaces
+            if user_input:  # Check if user input is not empty
+                chatbot_response = get_chatbot_response(user_input)
 
-            # Add the username to the chatbot response
-            chatbot_response = f"Hi {request.user.username}, {chatbot_response}"
+                # Add the username to the chatbot response
+                chatbot_response = f"Hi {request.user.username}, {chatbot_response}"
 
-            # Save the user input and chatbot response in the Chatbot model
-            chatbot_entry = Chatbot.objects.create(
-                user=request.user,
-                message=user_input,
-                response=chatbot_response,
-            )
+                # Save the user input and chatbot response in the Chatbot model
+                chatbot_entry = Chatbot.objects.create(
+                    user=request.user,
+                    message=user_input,
+                    response=chatbot_response,
+                )
 
-            # Append the user input and chatbot response to the conversation history
-            conversation_history.append({
-                'user_input': user_input,
-                'chatbot_response': chatbot_response,
-            })
+                # Append the user input and chatbot response to the conversation history
+                conversation_history.append({
+                    'user_input': user_input,
+                    'chatbot_response': chatbot_response,
+                })
 
-            # Store the updated conversation history in the user's session
-            request.session['conversation_history'] = conversation_history
-
-            # Redirect to a new URL after processing the form submission
-            return redirect('chatbot')
-
-    else:
-        # If it's not a POST request, set chatbot_response to an empty string
-        chatbot_response = ''
+                # Store the updated conversation history in the user's session
+                request.session['conversation_history'] = conversation_history
 
     return render(request, 'chatbot.html', {'conversation_history': conversation_history, 'chatbot_response': chatbot_response})
 
@@ -120,26 +116,25 @@ def logout_view(request):
     return redirect('/')
 
 
-from django.http import JsonResponse
-
-def get_initial_messages(request):
-    # Logic to retrieve initial chat messages from your data source
-    conversation_history = [
-        {'message': 'Hello!', 'timestamp': '2023-07-27T12:00:00Z'},
-        {'message': 'How can I help you?', 'timestamp': '2023-07-27T12:01:00Z'},
-        # Add more messages as needed
-    ]
-
-    return JsonResponse({'conversation_history': conversation_history})
+def history_view(request):
+    # Retrieve the user's chat message history
+    message_history = Chatbot.objects.filter(user=request.user).order_by('-timestamp')
+    
+    return render(request, 'history.html', {'message_history': message_history})
 
 
-
-
-
-
-def clear_chat_history(request):
+def settings_view(request):
     if request.method == 'POST':
-        user = request.user
-        Chatbot.objects.filter(user=user).delete()
-        return JsonResponse({'message': 'Chat history cleared successfully.'})
+        # Check if the "Delete History" button is clicked
+        if 'delete_history_button' in request.POST:
+            # Delete chat history for the current user from the database
+            Chatbot.objects.filter(user=request.user).delete()
+
+            # Clear chat history from the user's session
+            if 'conversation_history' in request.session:
+                del request.session['conversation_history']
+
+            return redirect('settings')  # Redirect back to the settings page
+
+    return render(request, 'settings.html')
 
